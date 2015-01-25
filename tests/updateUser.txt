@@ -1,0 +1,4 @@
+{ 
+  "webUrl":"http://amundsen.com/blog/",
+  "avatarUrl":"https://pbs.twimg.com/profile_images/340449683/madmen_icon_normal.jpg"
+}

@@ -1,0 +1,19 @@
+/*******************************************************
+ * big-todo
+ * htyml.css (default css for html representor)
+ * January 2015
+ * Mike Amundsen (@mamund)
+ * Soundtrack : The Definitive Sonny Rollins 
+                On Prestige, Riverside, And Contemporary
+ *******************************************************/
+
+li {display:block;clear:right;}
+li dl dt {font-weight: bold; padding: 0; width:150px; float:left}
+li dl dd {padding: 0; margin:0; float:left, clear:right;} 
+
+form {width:400px;}
+form fieldset p {margin:5px; 0px}
+form fieldset p label {display:block; width:120px; float:left;}
+
+table {border: 2px; border-collapse: collapse;}
+td {border: 1px solid gray; padding:4px; vertical-align:top; max-width:175px; overflow:auto;}
