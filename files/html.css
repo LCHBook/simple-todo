@@ -3,17 +3,34 @@
  * htyml.css (default css for html representor)
  * January 2015
  * Mike Amundsen (@mamund)
- * Soundtrack : The Definitive Sonny Rollins 
-                On Prestige, Riverside, And Contemporary
+ * Soundtrack : Horowitz: Favorite Chopin
  *******************************************************/
 
-li {display:block;clear:right;}
-li dl dt {font-weight: bold; padding: 0; width:150px; float:left}
-li dl dd {padding: 0; margin:0; float:left, clear:right;} 
+/* general settings */
+body {font-family:arial;background-color:#f3f3f3;}
+h1 {text-transform:capitalize;}
+a {color:blue;}
 
-form {width:400px;}
+/* lists */
+ul {padding:5px;}
+li {display:block; clear:right; padding: 1px;}
+li dl dt {font-weight: bold; padding: 5px; width:150px; float:left;}
+li dl dd {padding: 5px; margin:0; float:left, clear:right;} 
+
+/* forms */
+legend {font-weight:bold;}
+form fieldset {width:400px;}
 form fieldset p {margin:5px; 0px}
-form fieldset p label {display:block; width:120px; float:left;}
+form fieldset p label {display:block; width:140px; float:left;}
+input[readonly] {background-color:silver;}
 
-table {border: 2px; border-collapse: collapse;}
-td {border: 1px solid gray; padding:4px; vertical-align:top; max-width:175px; overflow:auto;}
+/* tables */
+table {border: 1px solid black; border-collapse: collapse;}
+td {border: 1px solid black; padding:4px; vertical-align:top; max-width:175px; overflow:auto;}
+th {border: 1px solid black; padding: 4px; text-transform: uppercase; color:white; background-color:#696969;}
+
+/* errors */
+dl.error {border: 3px double #ccc; padding: 0.5em;}
+dl.error dt {text-transform:uppercase; float:left; clear:left; width:100px; text-align:right; font-weight: bold;}
+dl.error dt:after {content: ":";}
+dl.error dd {color:#333; margin: 0 0 0 110px; padding: 0 0 0.5em 0;

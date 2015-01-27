@@ -156,7 +156,7 @@ function processError(data) {
   var rtn;
   
   rtn = "";
-  rtn += "<dl>";
+  rtn += '<dl class="error">';
   
   for(p in data) {
     rtn += "<dt>"+p+"</dt>";
@@ -208,6 +208,9 @@ function makeTable(data, type, root, fields, actions) {
   for(i=0, x=fields.length; i<x; i++) {
     rtn += "<th>"+fields[i]+"</th>";
   }
+  if(actions!=="<ul></ul>") {
+    rtn += "<th>actions</th>";
+  }
   rtn += "</tr>";
     
   // get rows to process
@@ -233,9 +236,6 @@ function makeTable(data, type, root, fields, actions) {
             rtn += rows[i][p];
           }
           break;
-        }
-        else {
-          rtn += '&nbsp;';
         }
       }
       rtn += '</td>';

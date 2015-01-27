@@ -175,8 +175,6 @@ function sendCompleteForm(req, res, id, respond) {
 
   item = components.task('read', id)[0];
   
-  console.log(JSON.stringify(item));
-  
   trans = [];
   trans.push(transitions('homeLink'));
   trans.push(transitions('taskCollectionLink'));
