@@ -12,6 +12,8 @@ module.exports = json;
 
 function json(object) {
   
+  // doesn't emit actions
+  // just data, so...
   // drop action[] metadata
   // move data[] to top
   for(p in object) {
