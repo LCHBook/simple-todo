@@ -17,7 +17,7 @@ function json(object) {
   for(p in object) {
     switch(p) {
       case "actions":
-        object[p] = null;
+        delete object[p];
         break;
       case "category":
       case "task":
