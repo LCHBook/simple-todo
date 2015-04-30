@@ -15,6 +15,8 @@
  
  function thisPage() {
 
+  var dom = domHelp();
+  
   var g = {};  
   g.root = "http://localhost:8181";
   g.rsp = {};
@@ -41,9 +43,9 @@
   g.urls.userChangePW = "/user/changepw/";
   g.urls.userCollection = "/user/";
   g.urls.userFindByName = "/user/byname/?fn={fn}&gn={gn}";
-  g.urls.userFindByUser = "/user/byuser?q={q}";
+  g.urls.userFindByUser = "/user/byuser/?q={q}";
   
-  // constraint field representation on screen
+  // constrain field representation on screen
   g.tables = {}
   g.tables.task = "title description category dateDue completeFlag";
   g.tables.category = "name";
@@ -55,7 +57,7 @@
   g.divs.category = "category-list category-add category-findbyname category-filters";
   g.divs.user = "user-list user-add user-update user-changepw user-findbyname user-findbyuser user-filters";
 
-  // urls for dialogs
+  // match urls to dialogs
   g.dialogs = { 
     "task-add" : g.urls.taksAddItem, 
     "task-complete" : g.urls.taskComplete,
@@ -89,20 +91,29 @@
       url = g.urls.taskCollection;
     }
     
-    elm = document.getElementById('task-list');
+    elm = dom.find('task-list');
     if(elm) {
-      while(elm.firstChild){elm.removeChild(elm.firstChild);}
-      elm.innerHtml = 'loading...';
-      makeRequest(g.root + url, 'get', null, 'taskCollection', showTaskCollection);
+      dom.clear(elm);
+      makeRequest(g.root + url, 
+        'get', 
+        null, 
+        'taskCollection', 
+        showTaskCollection);
     }
   }
   function showTaskCollection() {
     var elm;
     
-    elm = document.getElementById('task-list');
+    elm = dom.find('task-list');
     if(elm) {
-      while(elm.firstChild){elm.removeChild(elm.firstChild);}
-      makeTable(elm, "Tasks", "task", g.rsp, g.tables.task, g.urls.taskItem, showTaskItem);
+      dom.clear(elm);
+      makeTable(elm, 
+        "Tasks", 
+        "task", 
+        g.rsp, 
+        g.tables.task, 
+        g.urls.taskItem, 
+        showTaskItem);
     }
   }
   function showTaskItem(href) {
@@ -113,20 +124,8 @@
     
     showSet('task');
     hideDialogs();
-    elm = document.getElementById("task-filters");
-    if(elm) {
-      if(s) {
-        elm.style.display=s;
-      }
-      else {
-        if(elm.style.display==="block") {
-          elm.style.display="none";
-        }
-        else {
-          elm.style.display="block";
-        }
-      }
-    }
+    elm = dom.find("task-filters");
+    toggleElm(elm,s);
   }
   
   function showCategories() {
@@ -141,20 +140,29 @@
       url = g.urls.categoryCollection;
     }
     
-    elm = document.getElementById('category-list');
+    elm = dom.find('category-list');
     if(elm) {
-      while(elm.firstChild){elm.removeChild(elm.firstChild);}
-      elm.innerHtml = 'loading...';
-      makeRequest(g.root + url, 'get', null, 'categoryCollection', showCategoryCollection);
+      dom.clear(elm);
+      makeRequest(g.root + url, 
+        'get', 
+        null, 
+        'categoryCollection', 
+        showCategoryCollection);
     }
   }
   function showCategoryCollection() {
     var elm;
     
-    elm = document.getElementById('category-list');
+    elm = dom.find('category-list');
     if(elm) {
-      while(elm.firstChild){elm.removeChild(elm.firstChild);}
-      makeTable(elm, "Categories", "category", g.rsp, g.tables.category, g.urls.categoryItem, showCategoryItem);
+      dom.clear(elm);
+      makeTable(elm, 
+        "Categories", 
+        "category", 
+        g.rsp, 
+        g.tables.category, 
+        g.urls.categoryItem, 
+        showCategoryItem);
     }
   }
   function showCategoryItem(href) {
@@ -165,20 +173,8 @@
     
     showSet('category');
     hideDialogs();
-    elm = document.getElementById("category-filters");
-    if(elm) {
-      if(s) {
-        elm.style.display=s;
-      }
-      else {
-        if(elm.style.display==="block") {
-          elm.style.display="none";
-        }
-        else {
-          elm.style.display="block";
-        }
-      }
-    }
+    elm = dom.find("category-filters");
+    toggleElm(elm,s);
   }
   
   function showUsers() {
@@ -193,20 +189,29 @@
       url = g.urls.userCollection;
     }
     
-    elm = document.getElementById('user-list');
+    elm = dom.find('user-list');
     if(elm) {
-      while(elm.firstChild){elm.removeChild(elm.firstChild);}
-      elm.innerHtml = 'loading...';
-      makeRequest(g.root + url, 'get', null, 'userCollection', showUserCollection);
+      dom.clear(elm);
+      makeRequest(g.root + url, 
+        'get', 
+        null, 
+        'userCollection', 
+        showUserCollection);
     }
   }
   function showUserCollection() {
     var elm;
     
-    elm = document.getElementById('user-list');
+    elm = dom.find('user-list');
     if(elm) {
-      while(elm.firstChild){elm.removeChild(elm.firstChild);}
-      makeTable(elm, "Users", "user", g.rsp, g.tables.user, g.urls.userItem, showUserItem);
+      dom.clear(elm);
+      makeTable(elm, 
+        "Users", 
+        "user", 
+        g.rsp, 
+        g.tables.user, 
+        g.urls.userItem, 
+        showUserItem);
     }
   }
   function showUserItem(href) {
@@ -217,7 +222,70 @@
     
     showSet('user');
     hideDialogs();
-    elm = document.getElementById("user-filters");
+    elm = dom.find("user-filters");
+    toggleElm(elm,s);
+  }
+  
+  // wire up static elements
+  function registerEvents() {
+    var elm, nodes, i, x;
+    
+    // top-level buttons
+    elm = dom.find("task-button");
+    if(elm) {
+      elm.onclick = showTasks;
+    }
+    
+    elm = dom.find("category-button");
+    if(elm) {
+      elm.onclick = showCategories;
+    }
+    
+    elm = dom.find("user-button");
+    if(elm) {
+      elm.onclick = showUsers;
+    }
+    
+    //filter links
+    nodes = dom.classNodes("filter-link");
+    for(i=0, x=nodes.length; i<x; i++) {
+      nodes[i].onclick = selectFilter;
+    }   
+    
+    // filter forms
+    nodes = dom.classNodes("filter");
+    for(i=0, x=nodes.length; i<x; i++) {
+      if(nodes[i].nodeName==="FORM") {
+        nodes[i].onsubmit = sendFilter;
+      }
+    }
+
+    // cancel buttons forms
+    nodes = dom.classNodes("cancel-button");
+    for(i=0, x=nodes.length; i<x; i++) {
+      nodes[i].onclick = hideDialogs;
+    }   
+  }
+  
+  // show only the selected divs
+  function showSet(set) {
+    var elm, coll;
+    
+    for(var d in g.divs) {
+      if(d!==set) {
+        coll = g.divs[d].split(' ');
+        for(var i of coll) {
+          elm = dom.find(i);
+          if(elm) {
+            elm.style.display="none";
+          }
+        }
+      }
+    }
+  }
+
+  // general toggle element display 
+  function toggleElm(elm,s) {
     if(elm) {
       if(s) {
         elm.style.display=s;
@@ -232,71 +300,14 @@
       }
     }
   }
-  
-  // wire up static elements
-  function registerEvents() {
-    var elm, coll, i, x;
     
-    // top-level buttons
-    elm = document.getElementById("task-button");
-    if(elm) {
-      elm.onclick = showTasks;
-    }
-    
-    elm = document.getElementById("category-button");
-    if(elm) {
-      elm.onclick = showCategories;
-    }
-    
-    elm = document.getElementById("user-button");
-    if(elm) {
-      elm.onclick = showUsers;
-    }
-    
-    //filter links
-    coll = document.getElementsByClassName("filter-link");
-    for(i=0, x=coll.length; i<x; i++) {
-      coll[i].onclick = selectFilter;
-    }   
-    
-    // filter forms
-    coll = document.getElementsByClassName("filter");
-    for(i=0, x=coll.length; i<x; i++) {
-      if(coll[i].nodeName==="FORM") {
-        coll[i].onsubmit = sendFilter
-      }
-    }   
-
-    // cancel buttons forms
-    coll = document.getElementsByClassName("cancel-button");
-    for(i=0, x=coll.length; i<x; i++) {
-      coll[i].onclick = hideDialogs;
-    }   
-  }
-  
-  // show only the selected divs
-  function showSet(set) {
-    var elm, coll, i, x;
-    for(var d in g.divs) {
-      if(d!==set) {
-        coll = g.divs[d].split(' ');
-        for(i=0, x=coll.length;i<x;i++) {       
-          elm = document.getElementById(coll[i]);
-          if(elm) {
-            elm.style.display="none";
-          }
-        }
-      }
-    }
-  }
-  
   // hide UI dialogs
   function hideDialogs() {
-    var coll, i, x;
+    var nodes, i, x;
     
-    coll = document.getElementsByClassName("dialog");
-    for(i=0, x=coll.length;i<x;i++) {
-      coll[i].style.display="none";
+    nodes = dom.classNodes("dialog");
+    for(i=0, x=nodes.length;i<x;i++) {
+      nodes[i].style.display="none";
     }
   }
   
@@ -357,20 +368,13 @@
     set = id.split("-")[0];
     
     hideDialogs();
-    elm = document.getElementById(id);
-    if(elm) {
-      if(elm.style.display==="block") {
-        elm.style.display="none";
-      }
-      else {
-        elm.style.display="block";
-      }
-    }
+    elm = dom.find(id);
+    toggleElm(elm);
   }
   
   // dispatch for filter execution
   function sendFilter(e) {
-    var id, coll, i, x, href, args, set;
+    var id, nodes, i, x, href, args, set;
     
     args = '{';
     id = e.target.id
@@ -378,13 +382,13 @@
     set = id.split('-')[0];
     
     // collect inputs
-    coll = document.forms[id].getElementsByTagName('input');
-    for(i=0, x=coll.length; i<x; i++) {
-      if(coll[i].name) {
+    nodes = dom.tagNodes("input",document.forms[id]);
+    for(i=0, x=nodes.length; i<x; i++) {
+      if(nodes[i].name) {
         if(i!==0) {
           args += ",";
         }
-        args += '"'+coll[i].name+'":"'+escape(coll[i].value)+'"';
+        args += '"'+nodes[i].name+'":"'+escape(nodes[i].value)+'"';
       }
     }
     args += "}";
@@ -415,45 +419,43 @@
   
   // generic table display of data
   function makeTable(elm, title, set, data, fields, url, handler) {
-    var rows, flds, h2, btn, tbl, th, tr, td, a, i, x, j, y, z;
+    var rows, flds, h2, btn, tbl, th, tr, td, a, z;
     
     flds = fields.split(' ');
     
     // show title
-    h2 = document.createElement('h2');
+    h2 = dom.node('h2');
     h2.innerText = title;
-    elm.appendChild(h2);
+    dom.push(h2,elm);
     
     // add button
-    btn = document.createElement('button');
+    btn = dom.node('button');
     btn.innerText = "Add";
     btn.onclick = function(){addItem(set); return false;};
-    elm.appendChild(btn);
+    dom.push(btn,elm);
     
     // filter button
-    btn = document.createElement('button');
+    btn = dom.node('button');
     btn.innerText = "Filter";
     btn.onclick = function(){filterList(set); return false;};
-    elm.appendChild(btn);
+    dom.push(btn,elm);
 
     // all button
-    btn = document.createElement('button');
+    btn = dom.node('button');
     btn.innerText = "All";
     btn.onclick = function(){allList(set); return false;};
-    elm.appendChild(btn);
+    dom.push(btn,elm);
     
-    tbl = document.createElement('table');
+    tbl = dom.node('table');
     
     // header row
-    tr = document.createElement('tr');
-    for(var p in data[0]) {
-      if(fields.indexOf(p)!==-1) {
-        th = document.createElement('th');
-        th.innerText = p;
-        tr.appendChild(th);
-      }
+    tr = dom.node('tr');
+    for(var fld of flds) {
+      th = dom.node('th');
+      th.innerText = fld;
+      dom.push(th,tr);
     }
-    tbl.appendChild(tr);
+    dom.push(tr,tbl);
     
     // get rows to process
     rows = [];
@@ -467,24 +469,22 @@
       }
     }
     
-    for(i=0, x=rows.length; i<x; i++) {
+    for(var row of rows) {
       z=0;
-      tr = document.createElement('tr');
-      // show the requested fields in order
-      for(j=0, y=flds.length; j<y; j++) {
-        td = document.createElement('td');
-        for(var p in rows[i]) {
-          if(p===flds[j]) {
-            // first column will be tagged for with a link
-            if(z++===0 && rows[i].id) {
-              a = document.createElement('a');
-              a.href = url.replace('{id}',rows[i].id);
-              a.appendChild(document.createTextNode(rows[i][p]));
+      tr = dom.node('tr');
+      for(var fld of flds) {
+        td = dom.node('td');
+        for(var p in row) {
+          if(p===fld) {
+            if(z++===0 && row.id) {
+              a = dom.node('a');
+              a.href = url.replace('{id}',row.id);
+              dom.push(dom.text(row[p]),a);
               a.onclick = function() {handler(this.href); return false};
-              td.appendChild(a);
+              dom.push(a,td);
             }
             else {
-              td.innerText = rows[i][p];
+              td.innerText = row[p];
             }
             break;
           }
@@ -492,11 +492,12 @@
             td.innerText = '';
           }
         }
-        tr.appendChild(td);
+        dom.push(td,tr);
       }
-      tbl.appendChild(tr);
+      dom.push(tr,tbl);
     }
-    elm.appendChild(tbl);
+    
+    dom.push(tbl,elm);
     elm.style.display='block';
   }
   
@@ -548,3 +549,64 @@
   
   return that;
  }
+ 
+// **************************
+// DOM helpers
+// **************************
+function domHelp() {
+
+  function push(source,target) {
+    target.appendChild(source);
+  }
+
+  function classNodes(name,elm) {
+    if(elm) {
+      rtn = elm.getElementsByClasName(name);
+    }
+    else {
+      rtn = document.getElementsByClassName(name);
+    }
+    return rtn;
+  }
+  
+  function tagNodes(tag,elm) {
+    if(elm) {
+      rtn = elm.getElementsByTagName(tag);
+    }
+    else {
+      rtn = document.getElementsByTagName(tag);
+    }
+    return rtn;
+  }
+
+  function find(id) {
+    return document.getElementById(id);
+  }
+
+  function text(txt) {
+    return document.createTextNode(txt);
+  }
+
+  function node(type) {
+    return document.createElement(type);
+  }
+
+  function clear(elm) {
+    while (elm.firstChild) {
+      elm.removeChild(elm.firstChild);
+    }
+  }
+
+  // publish
+  that = {};
+  that.push = push;
+  that.tagNodes = tagNodes;
+  that.find = find;
+  that.text = text;
+  that.node = node;
+  that.clear = clear;
+  that.classNodes = classNodes;
+
+  return that;
+}
+

@@ -1,0 +1,66 @@
+<html>
+<head>
+  <title>user</title>
+  <link rel="stylesheet" href="http://localhost:8181/files/html.css" type="text/css" />
+</head>
+<body>
+  <h1>user</h1>
+  <div>
+    <ul>
+      <li><a href="http://localhost:8181">Home</a></li>
+      <li><a href="http://localhost:8181/user/">All Users</a></li>
+      <li><a href="http://localhost:8181/user/add">Add User</a></li>
+      <li><a href="http://localhost:8181/user/byname/">Find Users by Name</a></li>
+      <li><a href="http://localhost:8181/user/byuser/">Find Users by UserName</a></li>
+    </ul>
+    <table>
+      <tr>
+        <th>userName</th>
+        <th>familyName</th>
+        <th>givenName</th>
+        <th>webUrl</th>
+        <th>avatarUrl</th>
+        <th>actions</th>
+      </tr>
+      <tr>
+        <td><a href="http://localhost:8181/user/lee">lee</a></td>
+        <td>Amundsen</td>
+        <td>Lee</td>
+        <td>http://amundsen.com/lee</td>
+        <td></td>
+        <td>
+          <ul>
+            <li>
+              <a href="http://localhost:8181/user/changepw/lee">
+                Change Password
+              </a>
+            </li>
+            <li>
+              <a href="http://localhost:8181/user/update/lee">Update User</a>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td><a href="http://localhost:8181/user/mamund">mamund</a></td>
+        <td>Amundsen</td>
+        <td>Mike</td>
+        <td>http://amundsen.com/blog/</td>
+        <td>https://pbs.twimg.com/profile_images/340449683/madmen_icon_normal.jpg</td>
+        <td>
+          <ul>
+            <li>
+              <a href="http://localhost:8181/user/changepw/mamund">
+                ChangePassword
+              </a>
+            </li>
+            <li>
+              <a href="http://localhost:8181/user/update/mamund">Update User</a>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
