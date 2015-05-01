@@ -3,8 +3,7 @@
  * SPA Client for JSON Object Provider (JS)
  * January 2015
  * Mike Amundsen (@mamund)
- * Soundtrack : Charlie Haden, Jim Hall "Montreal Jazs Festival"
- **************************************************************/
+ * Soundtrack : Charlie Haden, Jim Hall "Montreal Jazz Festival" **************************************************************/
  
  var pg;
  
@@ -13,6 +12,7 @@
   pg.init();
  }
  
+ // actual work all done in here
  function thisPage() {
 
   var dom = domHelp();
