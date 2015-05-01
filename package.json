@@ -1,6 +1,6 @@
 {
   "name": "simple-todo",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Sample from CH01 of Learning Client Hypermedia",
   "main": "app.js",
   "scripts": {
