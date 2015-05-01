@@ -1,0 +1,21 @@
+{
+  "name": "simple-todo",
+  "version": "1.0",
+  "description": "Sample from CH01 of Learning Client Hypermedia",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": "0.10.25"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LCHBook/simple-todo.git"
+  },
+  "keywords": [
+    "hypermedia",
+    "amundsen"
+  ],
+  "license": "MIT"
+}
