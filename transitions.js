@@ -11,6 +11,8 @@ module.exports = main;
 var trans = [];
 
 function main(name) {
+  var rtn;
+  
   if(trans[name]) {
     rtn = trans[name];
   }

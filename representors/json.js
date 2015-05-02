@@ -16,7 +16,7 @@ function json(object) {
   // just data, so...
   // drop action[] metadata
   // move data[] to top
-  for(p in object) {
+  for(var p in object) {
     switch(p) {
       case "actions":
         delete object[p];
