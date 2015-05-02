@@ -12,59 +12,7 @@
   pg.init();
  }
  
-// all the work is done here
-function thisPage() {
- 
-  var dom = domHelp();
-  
-  var g = {};
-  g.root = location.origin;
-  g.rsp = {};
-  
-  // handle operations
-  g.operations = [
-    "taskList" : {url:"/task/", method:"get", returns:"taskList",accepts:""},
-    "taskAdd" : {url:"/task/", method:"post", returns:"taskList",accepts:"title={title}&description={description}&category={category}&completeFlag={completeFlag}&dateDue={dateDue}&userName={userName}"},
-    "taskItem" : {url:"/task/{id}", method:"get", returns:"taskItem",accepts:""},
-    "taskFilterByCategory" : {url:"/task/bycategory/?q={category}", method:"get", returns:"taskList",accepts:""},
-    "taskFilterByStatus" : {url:"/task/bystatus/?q={status}", method:"get", returns:"taskList",accepts:""},
-    "taskMarkComplete" : {url:"/task/markcomplete/", method:"post", returns:"task",accepts:"id={id}&completeFlag={completeFlag }"},
-    "taskAssignUser" : {url:"/task/assignuser/", method:"post", returns:"task",accepts:"id={id}&userName={userName}"}
-  ];
- 
-  // object constraints
-  g.task = {
-    title : "required",
-    description : "",
-    completeFlag : "",
-    category : "requried",
-    user : "",
-    dateDue : ""
-  };
-  g.category = {
-    name : "required"
-  };
-  g.user = {
-    userName : "required",
-    password : "required",
-    familyName : "",
-    givenName : "",
-    webUrl : "",
-    avatarUrl : ""
-  };
-  g.userList = [];
-  
-  function init() {
-  }  
-
-  var that = {};
-  that.init = init;
-  
-  return that;  
-}
-
  // actual work all done in here
- /*
  function thisPage() {
 
   var dom = domHelp();
@@ -72,6 +20,30 @@ function thisPage() {
   var g = {};  
   g.root = location.origin; // http://localhost:8181";
   g.rsp = {};
+    
+  // memorize all the urls
+  g.urls = {};
+  g.urls.taskAdd = "/task/";
+  g.urls.taskItem = "/task/{id}";
+  g.urls.taskComplete = "/task/complete/";
+  g.urls.taskCollection = "/task/";
+  g.urls.taskAssignUser = "/task/assign/";
+  g.urls.taskFindByTitle = "/task/bytitle/?q={q}";
+  g.urls.taskFindByCategory = "/task/bycategory/?q={q}";
+  g.urls.taskFindByComplete = "/task/bycomplete/?q={q}";
+
+  g.urls.categoryAdd = "/category/";
+  g.urls.categoryItem = "/category/{id}";
+  g.urls.categoryCollection = "/category/";
+  g.urls.categoryFindByName = "/category/byname/?q={q}";
+
+  g.urls.userAdd = "/user/";  
+  g.urls.userItem = "/user/{id}";
+  g.urls.userUpdate = "/user/{id}";
+  g.urls.userChangePW = "/user/changepw/";
+  g.urls.userCollection = "/user/";
+  g.urls.userFindByName = "/user/byname/?fn={fn}&gn={gn}";
+  g.urls.userFindByUser = "/user/byuser/?q={q}";
   
   // constrain field representation on screen
   g.tables = {}
@@ -85,6 +57,23 @@ function thisPage() {
   g.divs.category = "category-list category-add category-findbyname category-filters";
   g.divs.user = "user-list user-add user-update user-changepw user-findbyname user-findbyuser user-filters";
 
+  // match urls to dialogs
+  g.dialogs = { 
+    "task-add" : g.urls.taksAddItem, 
+    "task-complete" : g.urls.taskComplete,
+    "task-assign" : g.urls.taskAssignUser,
+    "task-findbycategory" : g.urls.taskFindByCategory, 
+    "task-findbytitle" : g.urls.taskFindByTitle,
+    "task-findbycomplete" : g.urls.taskFindByComplete,
+    "category-add" : g.urls.categoryAdd,
+    "category-findbyname" : g.urls.categoryFindByName,
+    "user-add" : g.urls.userAdd,
+    "user-update" : g.urls.userUpdate,
+    "user-changepw" : g.urls.userChangePW,
+    "user-findbyname" : g.urls.userFindByName,
+    "user-findbyuser" :g.urls.userFindByUser
+  };
+  
   function init() {
     registerEvents();
     showTasks();
@@ -574,7 +563,6 @@ function thisPage() {
   
   return that;
  }
-*/
  
 // **************************
 // DOM helpers

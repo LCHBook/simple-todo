@@ -42,7 +42,7 @@ function handler(req, res) {
   var segments, i, x, parts, rtn, flg, doc, url;
 
   // set local vars
-  root = 'http://'+req.headers.host;
+  root = '//'+req.headers.host;
   csType = testType;
   flg = false;
   file = false;
