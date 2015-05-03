@@ -18,7 +18,7 @@
   var dom = domHelp();
   
   var g = {};  
-  g.root = location.origin; // http://localhost:8181";
+  g.root = location.origin;
   g.rsp = {};
     
   // memorize all the urls
