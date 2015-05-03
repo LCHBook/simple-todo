@@ -125,42 +125,42 @@
     var elm;
     
     elm = e.target;
-    alert(elm.action);
+    alert(elm.id);
     return false;
   }
   function taskByTitle(e) {
     var elm;
     
     elm = e.target;
-    alert(elm.action);
+    alert(elm.id);
     return false;
   }
   function taskByCategory(e) {
     var elm;
     
     elm = e.target;
-    alert(elm.action);
+    alert(elm.id);
     return false;
   }
   function taskByComplete(e) {
     var elm;
     
     elm = e.target;
-    alert(elm.action);
+    alert(elm.id);
     return false;
   }
   function taskMarkComplete(e) {
     var elm;
     
     elm = e.target;
-    alert(elm.action);
+    alert(elm.id);
     return false;
   }
   function taskAssignUser(e) {
     var elm;
     
     elm = e.target;
-    alert(elm.action);
+    alert(elm.id);
     return false;
   }
   
@@ -189,14 +189,14 @@
     var elm;
     
     elm = e.target;
-    alert(elm.action);
+    alert(elm.id);
     return false;
   }
   function categoryByName(e) {
     var elm;
     
     elm = e.target;
-    alert(elm.action);
+    alert(elm.id);
     return false;
   }
   
@@ -225,35 +225,35 @@
     var elm;
     
     elm = e.target;
-    alert(elm.action);
+    alert(elm.id);
     return false;
   }
   function userByUser(e) {
     var elm;
     
     elm = e.target;
-    alert(elm.action);
+    alert(elm.id);
     return false;
   }
   function userByName(e) {
     var elm;
     
     elm = e.target;
-    alert(elm.action);
+    alert(elm.id);
     return false;
   }
   function userChangePW(e) {
     var elm;
     
     elm = e.target;
-    alert(elm.action);
+    alert(elm.id);
     return false;
   }
   function userUpdate(e) {
     var elm;
     
     elm = e.target;
-    alert(elm.action);
+    alert(elm.id);
     return false;
   }
   
@@ -271,49 +271,49 @@
         taskCollection();
         break;
       case "task-add":
-        showDialog(cls, "task", g.urls.taskAdd, taskAdd, "post");
+        showDialog(cls, "task", taskAdd);
         break;
       case "task-bytitle":
-        showDialog(cls, "task", g.urls.taskByTitle, taskByTitle);
+        showDialog(cls, "task", taskByTitle);
         break;      
       case "task-bycategory":
-        showDialog(cls, "task", g.urls.taskByCategory, taskByCategory);
+        showDialog(cls, "task", taskByCategory);
         break;      
       case "task-bycomplete":
-        showDialog(cls, "task", g.urls.taskByComplete, taskByComplete);
+        showDialog(cls, "task", taskByComplete);
         break;      
       case "task-complete":
-        showDialog(cls, "task", g.urls.taskMarkComplete, taskMarkComplete, "post");
+        showDialog(cls, "task", taskMarkComplete);
         break;      
       case "task-assign":
-        showDialog(cls, "task", g.urls.taskAssignUser, taskAssignUser, "post");
+        showDialog(cls, "task", taskAssignUser);
         break;      
       case "category" :
         categoryCollection();
         break;
       case "category-add":
-        showDialog(cls, "category", g.urls.categoryAdd, categoryAdd, "post");
+        showDialog(cls, "category", categoryAdd);
         break;
       case "category-byname":
-        showDialog(cls, "category", g.urls.categoryByName, categoryByName);
+        showDialog(cls, "category", categoryByName);
         break;
       case "user" :
         userCollection();
         break;
       case "user-add":
-        showDialog(cls, "user", g.urls.userAdd, userAdd, "post");
+        showDialog(cls, "user", userAdd);
         break;
       case "user-changepw":
-        showDialog(cls, "user", g.urls.userChangePW, userChangePW, "post");
+        showDialog(cls, "user", userChangePW);
         break;
       case "user-update":
-        showDialog(cls, "user", g.urls.userUpdate, userUpdate, "post");
+        showDialog(cls, "user", userUpdate);
         break;
       case "user-byname":
-        showDialog(cls, "user", g.urls.userByName, userByName);
+        showDialog(cls, "user", userByName);
         break;
       case "user-byuser":
-        showDialog(cls, "user", g.urls.userByUser, userByUser);
+        showDialog(cls, "user", userByUser);
         break;
       default:
         alert("*** ERROR: unknown link action " + cls);
@@ -345,12 +345,12 @@
     }
     showBlock(elm.id);  
   }
-  function showDialog(id, group, href, handler, method) {
+  function showDialog(id, group, handler) {
     var elm;
     
     hideBlocks();
     showListActions(group);
-    setForm(id, group, href, handler, method);
+    setForm(id, handler);
     showBlock(id); 
   }
   function showData(context) {
@@ -466,13 +466,11 @@
       elm.style.display="block";
     }
   }  
-  function setForm(id, group, href, handler, method) {
+  function setForm(id, handler) {
     var elm;
     
     elm = dom.find(id);
     if(elm) {
-      elm.method = method||"get";
-      elm.action = href;
       elm.onsubmit = handler;
     }
   }
