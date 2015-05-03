@@ -76,22 +76,22 @@
       {title : "Home", href : g.urls.home, rel : "self", className : "page"},
       {title : "Tasks", href : g.urls.taskCollection, rel : "collection", className : "task"},
       {title : "Add Task", href : g.urls.taskAdd, rel : "create-form", className : "task-add"},
-      {title : "Find by Title", href : g.urls.taskFindByTitle, rel : "search", className : "task-bytitle"},
-      {title : "Find by Category", href : g.urls.taskFindByCategory, rel : "search", className : "task-bycategory"},
-      {title : "Find by Complete Status", href : g.urls.taskFindByComplete, rel : "search", className : "task-bycomplete"}
+      {title : "Find by Title", href : g.urls.taskByTitle, rel : "search", className : "task-bytitle"},
+      {title : "Find by Category", href : g.urls.taskByCategory, rel : "search", className : "task-bycategory"},
+      {title : "Find by Complete Status", href : g.urls.taskByComplete, rel : "search", className : "task-bycomplete"}
     ],
     "category" : [
       {title : "Home", href : g.urls.home, rel : "self", className : "page"},
       {title : "Categories", href : g.urls.categoryCollection, rel : "collection", className : "category"},
       {title : "Add Category", href : g.urls.categoryAdd, rel : "create-form", className : "category-add"},
-      {title : "Find by Name", href : g.urls.categoryFindByName, rel : "search", className : "category-byname"}
+      {title : "Find by Name", href : g.urls.categoryByName, rel : "search", className : "category-byname"}
     ],
     "user" : [
       {title : "Home", href : g.urls.home, rel : "self", className : "page"},
       {title : "Users", href : g.urls.userCollection, rel : "collection", className : "user"},
       {title : "Add User", href : g.urls.userAdd, rel : "create-form", className : "user-add"},
-      {title : "Find by User Name", href : g.urls.taskFindByUser, rel : "search", className : "user-byuser"},
-      {title : "Find by Name", href : g.urls.taskFindByName, rel : "search", className : "user-byname"}
+      {title : "Find by User Name", href : g.urls.userByUser, rel : "search", className : "user-byuser"},
+      {title : "Find by Name", href : g.urls.userByName, rel : "search", className : "user-byname"}
     ]
   };
   
@@ -121,12 +121,48 @@
     }
     return false;
   }
-  function taskAdd() {}
-  function taskByTitle() {}
-  function taskByCategory() {}
-  function taskByComplete() {}
-  function taskMarkComplete() {}
-  function taskAssignUser() {}
+  function taskAdd(e) {
+    var elm;
+    
+    elm = e.target;
+    alert(elm.action);
+    return false;
+  }
+  function taskByTitle(e) {
+    var elm;
+    
+    elm = e.target;
+    alert(elm.action);
+    return false;
+  }
+  function taskByCategory(e) {
+    var elm;
+    
+    elm = e.target;
+    alert(elm.action);
+    return false;
+  }
+  function taskByComplete(e) {
+    var elm;
+    
+    elm = e.target;
+    alert(elm.action);
+    return false;
+  }
+  function taskMarkComplete(e) {
+    var elm;
+    
+    elm = e.target;
+    alert(elm.action);
+    return false;
+  }
+  function taskAssignUser(e) {
+    var elm;
+    
+    elm = e.target;
+    alert(elm.action);
+    return false;
+  }
   
   // category operations
   function categoryCollection() {
@@ -149,8 +185,20 @@
       makeRequest(href,"get",null,"category-item",showData);
     }
   }
-  function categoryAdd() {}
-  function categoryByName() {}
+  function categoryAdd(e) {
+    var elm;
+    
+    elm = e.target;
+    alert(elm.action);
+    return false;
+  }
+  function categoryByName(e) {
+    var elm;
+    
+    elm = e.target;
+    alert(elm.action);
+    return false;
+  }
   
   // user operations
   function userCollection() {
@@ -173,37 +221,43 @@
       makeRequest(href,"get",null,"user-item",showData);
     }
   }
-  function userAdd() {}
-  function userByUser() {}
-  function userByName() {}
-  function userChangePW() {}
-  function userUpdate() {}
+  function userAdd(e) {
+    var elm;
+    
+    elm = e.target;
+    alert(elm.action);
+    return false;
+  }
+  function userByUser(e) {
+    var elm;
+    
+    elm = e.target;
+    alert(elm.action);
+    return false;
+  }
+  function userByName(e) {
+    var elm;
+    
+    elm = e.target;
+    alert(elm.action);
+    return false;
+  }
+  function userChangePW(e) {
+    var elm;
+    
+    elm = e.target;
+    alert(elm.action);
+    return false;
+  }
+  function userUpdate(e) {
+    var elm;
+    
+    elm = e.target;
+    alert(elm.action);
+    return false;
+  }
   
   // specific UI services
-  function showListActions(group) {
-    var elm, ul, li, a;
-    
-    hideBlocks();
-    elm = dom.find("list-actions");
-    if(elm) {
-      dom.clear(elm);
-      ul = dom.node("ul");
-      for(var link of g.listActions[group]) {
-        li = dom.node("li");
-        a = dom.node("a");
-        a.href = link.href;
-        a.title = link.title;
-        a.rel = link.rel;
-        a.className = link.className;
-        a.onclick = handleLinkAction;
-        dom.push(dom.text(link.title),a);
-        dom.push(a,li);
-        dom.push(li,ul);
-      }
-      dom.push(ul,elm); 
-    }
-    showBlock(elm.id);  
-  }
   function handleLinkAction(e) {
     var link, cls;
     
@@ -266,6 +320,30 @@
         break;
     }
     return false;
+  }
+  function showListActions(group) {
+    var elm, ul, li, a;
+    
+    hideBlocks();
+    elm = dom.find("list-actions");
+    if(elm) {
+      dom.clear(elm);
+      ul = dom.node("ul");
+      for(var link of g.listActions[group]) {
+        li = dom.node("li");
+        a = dom.node("a");
+        a.href = link.href;
+        a.title = link.title;
+        a.rel = link.rel;
+        a.className = link.className;
+        a.onclick = handleLinkAction;
+        dom.push(dom.text(link.title),a);
+        dom.push(a,li);
+        dom.push(li,ul);
+      }
+      dom.push(ul,elm); 
+    }
+    showBlock(elm.id);  
   }
   function showDialog(id, group, href, handler, method) {
     var elm;
@@ -379,8 +457,15 @@
     for(i=0,x=nodes.length;i<x;i++) {
       nodes[i].style.display="none";
     }
-  }
-  
+  } 
+  function showBlock(id) {
+    var elm;
+    
+    elm = dom.find(id);
+    if(elm) {
+      elm.style.display="block";
+    }
+  }  
   function setForm(id, group, href, handler, method) {
     var elm;
     
@@ -391,16 +476,6 @@
       elm.onsubmit = handler;
     }
   }
-  
-  function showBlock(id) {
-    var elm;
-    
-    elm = dom.find(id);
-    if(elm) {
-      elm.style.display="block";
-    }
-  }  
-  
   
   // handle network request/response
   function makeRequest(href, method, body, context, handler) {

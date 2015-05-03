@@ -78,7 +78,7 @@
       <form id="category-add" class="block">
         <fieldset>
           <legend>Add Category</legend>
-          <p class="input"><label>Name:</label><input name="name"/></p>
+          <p class="input"><label>Name:</label><input name="name" required="true"/></p>
           <p><label></label><input type="submit" /><input type="reset" /></p>
         </fieldset>
       </form>
@@ -98,8 +98,8 @@
       <form id="user-add" class="block">
         <fieldset>
           <legend>Add User</legend>
-          <p class="input"><label>UserName:</label><input name="userName" /></p>
-          <p class="input"><label>Password:</label><input name="password" /></p>
+          <p class="input"><label>UserName:</label><input name="userName" required="true"/></p>
+          <p class="input"><label>Password:</label><input name="password" required="true"/></p>
           <p class="input"><label>FamilyName:</label><input name="familyName" /></p>
           <p class="input"><label>GivenName:</label><input name="givenName" /></p>
           <p class="input"><label>Web URL:</label><input name="webUrl" /></p>
@@ -110,7 +110,7 @@
       <form id="user-update" class="block">
         <fieldset>
           <legend>Update User</legend>
-          <p class="input"><label>UserName:</label><input name="userName" disabled="true" /></p>
+          <p class="input"><label>UserName:</label><input name="userName" disabled="true"/></p>
           <p class="input"><label>FamilyName:</label><input name="familyName" /></p>
           <p class="input"><label>GivenName:</label><input name="givenName" /></p>
           <p class="input"><label>Web URL:</label><input name="webUrl" /></p>
@@ -121,9 +121,9 @@
       <form id="user-changepw" class="block">
         <fieldset>
           <legend>Change Password</legend>
-          <p class="input"><label>UserName:</label><input name="userName" disabled="true" value=""/></p>
-          <p class="input"><label>Old Password:</label><input name="oldPass" /></p>
-          <p class="input"><label>New Password:</label><input name="newPass" /></p>
+          <p class="input"><label>UserName:</label><input name="userName" disabled="true"/></p>
+          <p class="input"><label>Old Password:</label><input name="oldPass" required="true"/></p>
+          <p class="input"><label>New Password:</label><input name="newPass" required="true"/></p>
           <p class="input"><label>Repeat New Password:</label><input name="checkPass" required="true"/></p>
           <p><label></label><input type="submit" /><input type="reset" /></p>
         </fieldset>
