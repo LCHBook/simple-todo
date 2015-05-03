@@ -3,7 +3,8 @@
  * SPA Client for JSON Object Provider (JS)
  * January 2015
  * Mike Amundsen (@mamund)
- * Soundtrack : Charlie Haden, Jim Hall "Montreal Jazz Festival" **************************************************************/
+ * Soundtrack : Charlie Haden, Jim Hall "Montreal Jazz Festival" 
+ **************************************************************/
  
  var pg;
  
@@ -29,56 +30,39 @@
   g.urls.taskComplete = "/task/complete/";
   g.urls.taskCollection = "/task/";
   g.urls.taskAssignUser = "/task/assign/";
-  g.urls.taskFindByTitle = "/task/bytitle/"; //?q={q}";
-  g.urls.taskFindByCategory = "/task/bycategory/"; //?q={q}";
-  g.urls.taskFindByComplete = "/task/bycomplete/"; //?q={q}";
+  g.urls.taskByTitle = "/task/bytitle/?q={q}";
+  g.urls.taskByCategory = "/task/bycategory?q={q}";
+  g.urls.taskByComplete = "/task/bycomplete?q={q}";
 
   g.urls.categoryAdd = "/category/";
   g.urls.categoryItem = "/category/{id}";
   g.urls.categoryCollection = "/category/";
-  g.urls.categoryFindByName = "/category/byname/"; //?q={q}";
+  g.urls.categoryByName = "/category/byname/?q={q}";
 
   g.urls.userAdd = "/user/";  
   g.urls.userItem = "/user/{id}";
   g.urls.userUpdate = "/user/{id}";
   g.urls.userChangePW = "/user/changepw/";
   g.urls.userCollection = "/user/";
-  g.urls.userFindByName = "/user/byname/"; //?fn={fn}&gn={gn}";
-  g.urls.userFindByUser = "/user/byuser/"; //?q={q}";
+  g.urls.userByName = "/user/byname/?fn={fn}&gn={gn}";
+  g.urls.userByUser = "/user/byuser/?q={q}";
   
   // fields to display
   g.fields = {}
   g.fields.task = "title description category dateDue completeFlag userName actions";
   g.fields.category = "name";
   g.fields.user = "userName familyName givenName webUrl avatarUrl actions";
-  
-  // match urls to dialogs
-  g.dialogs = { 
-    "task-add" : g.urls.taksAddItem, 
-    "task-complete" : g.urls.taskComplete,
-    "task-assign" : g.urls.taskAssignUser,
-    "task-findbycategory" : g.urls.taskFindByCategory, 
-    "task-findbytitle" : g.urls.taskFindByTitle,
-    "task-findbycomplete" : g.urls.taskFindByComplete,
-    "category-add" : g.urls.categoryAdd,
-    "category-findbyname" : g.urls.categoryFindByName,
-    "user-add" : g.urls.userAdd,
-    "user-update" : g.urls.userUpdate,
-    "user-changepw" : g.urls.userChangePW,
-    "user-findbyname" : g.urls.userFindByName,
-    "user-findbyuser" :g.urls.userFindByUser
-  };
-  
+    
   // action descriptions
   g.itemActions = {
     "task" : [
-      {title : "Mark Complete", href : g.urls.taskComplete, rel : "http://example.com/mark-complete"},
-      {title : "Assign User", href : g.urls.taskAssignUser, rel : "http://example.com/rels/assign-user"}
+      {title : "Mark Complete", href : g.urls.taskComplete, rel : "http://example.com/mark-complete", className : "task-complete"},
+      {title : "Assign User", href : g.urls.taskAssignUser, rel : "http://example.com/rels/assign-user", className : "task-assign"}
     ],
     "category" : [],
     "user" : [
-      {title : "Change Password", href : g.urls.userChangePW, rel : "http://example.com/rels/change-password"},
-      {title : "Update User", href : g.urls.userUpdate, rel : "edit"}
+      {title : "Change Password", href : g.urls.userChangePW, rel : "http://example.com/rels/change-password", className : "user-changepw"},
+      {title : "Update User", href : g.urls.userUpdate, rel : "edit", className : "user-update"}
    ]
   };
   
@@ -126,13 +110,23 @@
       makeRequest(g.urls.taskCollection,"get",null,"task-list",showData);
     }
   }
-  function taskItem() {}
+  function taskItem(href) {
+    var elm;
+
+    showListActions("task");    
+    elm = dom.find("data");
+    if(elm) {
+      dom.clear(elm);
+      makeRequest(href,"get",null,"task-item",showData);
+    }
+    return false;
+  }
   function taskAdd() {}
-  function taskFindByCategory() {}
-  function taskFindByTitle() {}
-  function taskFindByCompelete() {}
+  function taskByTitle() {}
+  function taskByCategory() {}
+  function taskByComplete() {}
   function taskMarkComplete() {}
-  function taskAssigneUser() {}
+  function taskAssignUser() {}
   
   // category operations
   function categoryCollection() {
@@ -145,9 +139,18 @@
       makeRequest(g.urls.categoryCollection,"get",null,"category-list",showData);
     }
   }
-  function categoryItem() {}
+  function categoryItem(href) {
+    var elm;
+
+    showListActions("category");    
+    elm = dom.find("data");
+    if(elm) {
+      dom.clear(elm);
+      makeRequest(href,"get",null,"category-item",showData);
+    }
+  }
   function categoryAdd() {}
-  function categoryFindByName() {}
+  function categoryByName() {}
   
   // user operations
   function userCollection() {
@@ -160,10 +163,20 @@
       makeRequest(g.urls.userCollection,"get",null,"user-list",showData);
     }
   }
-  function userItem() {}
-  function userFindByUserName() {}
-  function userFindByName() {}
-  function userChangePassword() {}
+  function userItem(href) {
+    var elm;
+
+    showListActions("user");    
+    elm = dom.find("data");
+    if(elm) {
+      dom.clear(elm);
+      makeRequest(href,"get",null,"user-item",showData);
+    }
+  }
+  function userAdd() {}
+  function userByUser() {}
+  function userByName() {}
+  function userChangePW() {}
   function userUpdate() {}
   
   // specific UI services
@@ -192,30 +205,78 @@
     showBlock(elm.id);  
   }
   function handleLinkAction(e) {
-    var link;
+    var link, cls;
     
     link = e.target;
-    switch (link.className) {
+    cls = link.className.split(" ")[0]
+    switch (cls) {
       case "page":
         showListActions("page");
         break;
       case "task":
         taskCollection();
         break;
+      case "task-add":
+        showDialog(cls, "task", g.urls.taskAdd, taskAdd, "post");
+        break;
+      case "task-bytitle":
+        showDialog(cls, "task", g.urls.taskByTitle, taskByTitle);
+        break;      
+      case "task-bycategory":
+        showDialog(cls, "task", g.urls.taskByCategory, taskByCategory);
+        break;      
+      case "task-bycomplete":
+        showDialog(cls, "task", g.urls.taskByComplete, taskByComplete);
+        break;      
+      case "task-complete":
+        showDialog(cls, "task", g.urls.taskMarkComplete, taskMarkComplete, "post");
+        break;      
+      case "task-assign":
+        showDialog(cls, "task", g.urls.taskAssignUser, taskAssignUser, "post");
+        break;      
       case "category" :
         categoryCollection();
+        break;
+      case "category-add":
+        showDialog(cls, "category", g.urls.categoryAdd, categoryAdd, "post");
+        break;
+      case "category-byname":
+        showDialog(cls, "category", g.urls.categoryByName, categoryByName);
         break;
       case "user" :
         userCollection();
         break;
+      case "user-add":
+        showDialog(cls, "user", g.urls.userAdd, userAdd, "post");
+        break;
+      case "user-changepw":
+        showDialog(cls, "user", g.urls.userChangePW, userChangePW, "post");
+        break;
+      case "user-update":
+        showDialog(cls, "user", g.urls.userUpdate, userUpdate, "post");
+        break;
+      case "user-byname":
+        showDialog(cls, "user", g.urls.userByName, userByName);
+        break;
+      case "user-byuser":
+        showDialog(cls, "user", g.urls.userByUser, userByUser);
+        break;
       default:
-        alert("*** ERROR: unknown link action " + link.className);
+        alert("*** ERROR: unknown link action " + cls);
         break;
     }
     return false;
   }
+  function showDialog(id, group, href, handler, method) {
+    var elm;
+    
+    hideBlocks();
+    showListActions(group);
+    setForm(id, group, href, handler, method);
+    showBlock(id); 
+  }
   function showData(context) {
-    var actions, idLink, elm, rows, flds;
+    var actions, url, elm, rows, flds;
     var tbl, tr, th, td, z, handler;
 
     elm = dom.find("data");
@@ -224,6 +285,7 @@
     // set context data
     switch(context) {
       case "task-list":
+      case "task-item":
         actions = g.itemActions.task;
         url = g.urls.taskItem;
         rows = g.rsp.task;
@@ -231,6 +293,7 @@
         handler = taskItem;
         break;
       case "category-list":
+      case "category-item":
         actions = g.itemActions.category;
         url = g.urls.categoryItem;
         rows = g.rsp.category;
@@ -238,6 +301,7 @@
         handler = categoryItem;
         break;
       case "user-list":
+      case "user-item":
         actions = g.itemActions.user;
         url = g.urls.userItem;
         rows = g.rsp.user;
@@ -272,7 +336,7 @@
             a.href = ac.href;
             a.title = ac.title;
             a.rel = ac.rel;
-            a.className = "action";
+            a.className = ac.className+ " action";
             dom.push(dom.text(ac.title),a);
             a.onclick = handleLinkAction;
             dom.push(a,td);
@@ -314,6 +378,17 @@
     nodes = dom.classNodes("block");
     for(i=0,x=nodes.length;i<x;i++) {
       nodes[i].style.display="none";
+    }
+  }
+  
+  function setForm(id, group, href, handler, method) {
+    var elm;
+    
+    elm = dom.find(id);
+    if(elm) {
+      elm.method = method||"get";
+      elm.action = href;
+      elm.onsubmit = handler;
     }
   }
   
