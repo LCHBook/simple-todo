@@ -47,9 +47,9 @@
   
   // constrain field representation on screen
   g.tables = {}
-  g.tables.task = "title description category dateDue completeFlag";
+  g.tables.task = "title description category dateDue completeFlag actions";
   g.tables.category = "name";
-  g.tables.user = "userName familyName givenName";
+  g.tables.user = "userName familyName givenName actions";
   
   // lists of divs to clear as needed
   g.divs = {};
@@ -73,6 +73,19 @@
     "user-findbyname" : g.urls.userFindByName,
     "user-findbyuser" :g.urls.userFindByUser
   };
+  
+  // action descriptions
+  g.actions = {
+    "task" : [
+      {title : "Mark Complete", href : g.urls.taskComplete, rel : "http://example.com/mark-complete"},
+      {title : "Assign User", href : g.urls.taskAssignUser, rel : "http://example.com/rels/assign-user"}
+    ],
+    "category" : [],
+    "user" : [
+      {title : "Change Password", href : g.urls.userChangePW, rel : "http://example.com/rels/change-password"},
+      {title : "Update User", href : g.urls.userUpdate, rel : "edit"}
+   ]
+  }
   
   function init() {
     registerEvents();
@@ -109,7 +122,8 @@
         g.rsp, 
         g.tables.task, 
         g.urls.taskItem, 
-        getTaskItem);
+        getTaskItem,
+        g.actions["task"]);
     }
   }
   function getTaskItem(url) {
@@ -136,8 +150,9 @@
         "task", 
         g.rsp, 
         g.tables.task, 
-        '',null,g.urls.taskItem, 
-        getTaskItem);
+        '',
+        null,
+        g.actions["task"]);
     }
   }
   function toggleTaskFilters(s) {
@@ -152,7 +167,7 @@
   function showCategories() {
     showSet('category');
     hideDialogs();
-    getCategoryCollection();
+    getCategoryCollection(g.root+g.urls.categoryCollection);
   }
   function getCategoryCollection(url) {
     var elm;
@@ -179,7 +194,8 @@
         g.rsp, 
         g.tables.category, 
         g.urls.categoryItem, 
-        showCategoryItem);
+        showCategoryItem,
+        g.actions["category"]);
     }
   }
   function showCategoryItem(href) {
@@ -197,7 +213,7 @@
   function showUsers() {
     showSet('user');
     hideDialogs();
-    getUserCollection();
+    getUserCollection(g.root+g.urls.userCollection);
   }
   function getUserCollection(url) {
     var elm;
@@ -224,7 +240,8 @@
         g.rsp, 
         g.tables.user, 
         g.urls.userItem, 
-        showUserItem);
+        showUserItem,
+        g.actions["user"]);
     }
   }
   function showUserItem(href) {
@@ -329,6 +346,12 @@
     alert("adding "+title);
   }
 
+  // dispatch for item-level actions
+  function clickAction(e) {
+    alert(e.target.title);
+    return false;
+  }
+  
   // dispatch for unfiltered lists
   function allList(set) {
   
@@ -337,15 +360,15 @@
     switch (set.toLowerCase()) {
       case "task":
         toggleTaskFilters("none");
-        getTaskCollection();
+        getTaskCollection(g.root+g.urls.taskCollection);
         break;
       case "category":
         toggleCategoryFilters("none");
-        getCategoryCollection();
+        getCategoryCollection(g.root+g.urls.categoryCollection);
         break;
       case "user":
         toggleUserFilters("none");
-        getUserCollection();
+        getUserCollection(g.root+g.urls.userCollection);
         break;
       default:
         alert("Unknown case ["+set+"]");
@@ -431,7 +454,7 @@
   }
   
   // generic table display of data
-  function makeTable(elm, title, set, data, fields, url, handler) {
+  function makeTable(elm, title, set, data, fields, url, handler, actions) {
     var rows, flds, h2, btn, tbl, th, tr, td, a, z;
     
     flds = fields.split(' ');
@@ -487,6 +510,21 @@
       tr = dom.node('tr');
       for(var fld of flds) {
         td = dom.node('td');
+        if(fld==="actions" && actions!==null) {
+          for(var ac of actions) {
+            a = dom.node("a");
+            a.href = ac.href;
+            a.title = ac.title;
+            a.rel = ac.rel;
+            a.className = "action";
+            dom.push(dom.text(ac.title),a);
+            a.onclick = clickAction;
+            dom.push(a,td);
+          }
+          dom.push(td,tr);
+          break;
+        }
+        
         for(var p in row) {
           if(p===fld) {
             if(z++===0 && row.id) {
@@ -524,11 +562,11 @@
       ajax.onreadystatechange = function(){processResponse(ajax, context, handler);};
 
       if(body) {
-        ajax.open(method,href,false);
+        ajax.open(method,href);
         ajax.send(body);
       }
       else {
-        ajax.open(method,href,false);
+        ajax.open(method,href);
         ajax.setRequestHeader("Accept","application/json");
         ajax.send(null);
       }

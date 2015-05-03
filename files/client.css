@@ -12,3 +12,5 @@
 #category-list, #category-add, #category-findbyname, #category-filters {display:none;}
 #user-list, #user-add, #user-update, #user-changepw, #user-findbyname, #user-findbyuser, #user-filters {display:none;} 
 
+a.action {display:block;}
+td {vertical-align:top;}
