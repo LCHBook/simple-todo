@@ -11,23 +11,17 @@
   -->
   <head>
     <title>Web API To-Do</title>
-    <link href="client.css" rel="stylesheet" />
+    <link href="web-client.css" rel="stylesheet" />
   </head>
   <body>
     <h1>Web API To-Do</h1>
     
-    <!-- top menu -->
-    <div id="sets">
-      <button id="task-button">Tasks</button>
-      <button id="category-button">Categories</button>
-      <button id="user-button">Users</button>
-    </div>
+    <div id="list-actions" class="block"></div>
+    <div id="data" class="block"></div>
     
     <!-- task UI -->
     <div id="task">
-      <div id="task-list" class="block"></div>
-      <div id="task-item" class="block"></div>
-      <form id="task-add" class="dialog">
+      <form id="task-add" class="block">
         <fieldset>
           <legend>Add Task</legend>
           <p><label>Title:</label><input name="title" required="true"/></p>
@@ -42,7 +36,7 @@
           </p>
         </fieldset>
       </form>
-      <form id="task-complete" class="dialog">
+      <form id="task-complete" class="block">
         <fieldset>
           <legend>Complete Task</legend>
           <p><label>ID:</label><input name="id" disabled="true"/></p>
@@ -54,7 +48,7 @@
           </p>
         </fieldset>
       </form>
-      <form id="task-assign" class="dialog">
+      <form id="task-assign" class="block">
         <fieldset>
           <legend>Assign Task</legend>
           <p><label>ID:</label><input name="id" disabled="true"/></p>
@@ -66,53 +60,46 @@
           </p>
         </fieldset>
       </form>
-      <div id="task-filters">
-        <ul id="task-filter-list">
-          <li><a href="#" id="task-bycategory" class="filter-link">Find Task By Category</a></li> 
-          <li><a href="#" id="task-bytitle" class="filter-link">Find Task By Title</a></li> 
-          <li><a href="#" id="task-bycomplete" class="filter-link">Find Task By Complete Status</a></li> 
-        </ul>
-        <form id="task-findbycategory" action="#" class="dialog filter">
-          <fieldset>
-            <legend>Find Task by Category</legend>
-            <p><label>Category:</label><input name="q" /></p>
-            <p><label></label>
-              <input type="submit" />
-              <input type="reset" />
-              <input type="button" value="Cancel" class="cancel-button" />
-            </p>
-          </fieldset>
-        </form>
-        <form id="task-findbytitle" class="dialog filter">
-          <fieldset>
-            <legend>Find Task by Title</legend>
-            <p><label>Title:</label><input name="q" /></p>
-            <p><label></label>
-              <input type="submit" />
-              <input type="reset" />
-              <input type="button" value="Cancel" class="cancel-button" />
-            </p>
-          </fieldset>
-        </form>
-        <form id="task-findbycomplete" class="dialog filter">
-          <fieldset>
-            <legend>Find Task by Complete Status</legend>
-            <p><label>Complete Flag:</label><input name="q" /></p>
-            <p><label></label>
-              <input type="submit" />
-              <input type="reset" />
-              <input type="button" value="Cancel" class="cancel-button" />
-            </p>
-          </fieldset>
-        </form>
-      </div>
+      <form id="task-bycategory" action="#" class="block">
+        <fieldset>
+          <legend>Find Task by Category</legend>
+          <p><label>Category:</label><input name="q" /></p>
+          <p><label></label>
+            <input type="submit" />
+            <input type="reset" />
+            <input type="button" value="Cancel" class="cancel-button" />
+          </p>
+        </fieldset>
+      </form>
+      <form id="task-bytitle" class="block">
+        <fieldset>
+          <legend>Find Task by Title</legend>
+          <p><label>Title:</label><input name="q" /></p>
+          <p><label></label>
+            <input type="submit" />
+            <input type="reset" />
+            <input type="button" value="Cancel" class="cancel-button" />
+          </p>
+        </fieldset>
+      </form>
+      <form id="task-bycomplete" class="block">
+        <fieldset>
+          <legend>Find Task by Complete Status</legend>
+          <p><label>Complete Flag:</label><input name="q" /></p>
+          <p><label></label>
+            <input type="submit" />
+            <input type="reset" />
+            <input type="button" value="Cancel" class="cancel-button" />
+          </p>
+        </fieldset>
+      </form>
     </div>
     
     <!-- category UI -->
     <div id="category">
       <div id="category-list" class="block"></div>
       <div id="category-item" class="block"></div>
-      <form id="category-add" class="dialog">
+      <form id="category-add" class="block">
         <fieldset>
           <legend>Add Category</legend>
           <p class="input"><label>Name:</label><input name="name"/></p>
@@ -123,29 +110,24 @@
           </p>
         </fieldset>
       </form>
-      <div id="category-filters">
-        <ul id="task-filter-list">
-          <li><a href="#" id="category-byname" class="filter-link">Find Categories by Name</a></li> 
-        </ul>
-        <form id="category-findbyname" class="dialog filter">
-          <fieldset>
-            <legend>Find Category by Name</legend>
-            <p class="input"><label>Name:</label><input name="q" /></p>
-            <p><label></label>
-              <input type="submit" />
-              <input type="reset" />
-              <input type="button" value="Cancel" class="cancel-button" />
-            </p>
-          </fieldset>
-        </form>
-      </div>
+      <form id="category-byname" class="block">
+        <fieldset>
+          <legend>Find Category by Name</legend>
+          <p class="input"><label>Name:</label><input name="q" /></p>
+          <p><label></label>
+            <input type="submit" />
+            <input type="reset" />
+            <input type="button" value="Cancel" class="cancel-button" />
+          </p>
+        </fieldset>
+      </form>
     </div>
     
     <!-- user UI -->
     <div id="user">
       <div id="user-list" class="block"></div>
       <div id="user-item" class="block"></div>
-      <form id="user-add" class="dialog">
+      <form id="user-add" class="block">
         <fieldset>
           <legend>Add User</legend>
           <p class="input"><label>UserName:</label><input name="userName" /></p>
@@ -161,7 +143,7 @@
           </p>
         </fieldset>
       </form>
-      <form id="user-update" class="dialog">
+      <form id="user-update" class="block">
         <fieldset>
           <legend>Update User</legend>
           <p class="input"><label>UserName:</label><input name="userName" disabled="true" /></p>
@@ -176,7 +158,7 @@
           </p>
         </fieldset>
       </form>
-      <form id="user-changepw" class="dialog">
+      <form id="user-changepw" class="block">
         <fieldset>
           <legend>Change Password</legend>
           <p class="input"><label>UserName:</label><input name="userName" disabled="true" value="123"/></p>
@@ -190,37 +172,31 @@
           </p>
         </fieldset>
       </form>
-      <div id="user-filters">
-        <ul id="task-filter-list">
-          <li><a href="#" id="user-byname" class="filter-link">Find User By Name</a></li> 
-          <li><a href="#" id="user-byuser" class="filter-link">Find User By User Name</a></li> 
-        </ul>
-        <form id="user-findbyname" class="dialog filter">
-          <fieldset>
-            <legend>Find User by Name</legend>
-            <p class="input"><label>FamilyName:</label><input name="fn" /></p>
-            <p class="input"><label>GivenName:</label><input name="gn" /></p>
-            <p><label></label>
-              <input type="submit" />
-              <input type="reset" />
-              <input type="button" value="Cancel" class="cancel-button" />
-            </p>
-          </fieldset>
-        </form>
-        <form id="user-findbyuser" class="dialog filter">
-          <fieldset>
-            <legend>Find User by UserName</legend>
-            <p class="input"><label>UserName:</label><input name="q" /></p>
-            <p><label></label>
-              <input type="submit" />
-              <input type="reset" />
-              <input type="button" value="Cancel" class="cancel-button" />
-            </p>
-          </fieldset>
-        </form>
-      </div>
+      <form id="user-byname" class="block">
+        <fieldset>
+          <legend>Find User by Name</legend>
+          <p class="input"><label>FamilyName:</label><input name="fn" /></p>
+          <p class="input"><label>GivenName:</label><input name="gn" /></p>
+          <p><label></label>
+            <input type="submit" />
+            <input type="reset" />
+            <input type="button" value="Cancel" class="cancel-button" />
+          </p>
+        </fieldset>
+      </form>
+      <form id="user-byuser" class="block">
+        <fieldset>
+          <legend>Find User by UserName</legend>
+          <p class="input"><label>UserName:</label><input name="q" /></p>
+          <p><label></label>
+            <input type="submit" />
+            <input type="reset" />
+            <input type="button" value="Cancel" class="cancel-button" />
+          </p>
+        </fieldset>
+      </form>
     </div>
     
   </body>
-  <script src="client.js"><!-- na --></script>
+  <script src="web-client.js"><!-- na --></script>
 </html>

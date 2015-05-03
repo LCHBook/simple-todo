@@ -5,6 +5,8 @@
  * Mike Amundsen (@mamund)
  * Soundtrack : Charlie Haden, Jim Hall "Montreal Jazz Festival" **************************************************************/
  
+ /* TK: need to carve out request/response work from UI work */
+ 
  var pg;
  
  window.onload = function() {
