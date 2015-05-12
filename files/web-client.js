@@ -47,12 +47,6 @@
   g.urls.userByName = "/user/byname/?fn={fn}&gn={gn}";
   g.urls.userByUser = "/user/byuser/?q={q}";
   
-  // fields to display
-  g.fields = {}
-  g.fields.task = "title description category dateDue completeFlag userName actions";
-  g.fields.category = "name";
-  g.fields.user = "userName familyName givenName webUrl avatarUrl actions";
-    
   // action descriptions
   g.itemActions = {
     "task" : [
@@ -94,6 +88,13 @@
       {title : "Find by Name", href : g.urls.userByName, rel : "search", className : "user-byname"}
     ]
   };
+
+  // fields to display
+  g.fields = {}
+  g.fields.task = "title description category dateDue completeFlag userName actions";
+  g.fields.category = "name";
+  g.fields.user = "userName familyName givenName webUrl avatarUrl actions";
+    
   
   function init() {
     showListActions("page");
@@ -259,10 +260,12 @@
   
   // specific UI services
   function handleLinkAction(e) {
-    var link, cls;
+    var link, cls, rowId;
     
     link = e.target;
+    rowId = link.parentNode.parentNode.id;
     cls = link.className.split(" ")[0]
+    
     switch (cls) {
       case "page":
         showListActions("page");
@@ -283,10 +286,10 @@
         showDialog(cls, "task", taskByComplete);
         break;      
       case "task-complete":
-        showDialog(cls, "task", taskMarkComplete);
+        showDialog(cls, "task", taskMarkComplete, [{name:"id", value:rowId}]);
         break;      
       case "task-assign":
-        showDialog(cls, "task", taskAssignUser);
+        showDialog(cls, "task", taskAssignUser, [{name:"id", value:rowId}]);
         break;      
       case "category" :
         categoryCollection();
@@ -304,10 +307,10 @@
         showDialog(cls, "user", userAdd);
         break;
       case "user-changepw":
-        showDialog(cls, "user", userChangePW);
+        showDialog(cls, "user", userChangePW, [{name:"userName", value:rowId}]);
         break;
       case "user-update":
-        showDialog(cls, "user", userUpdate);
+        showDialog(cls, "user", userUpdate, [{name:"userName", value:rowId}]);
         break;
       case "user-byname":
         showDialog(cls, "user", userByName);
@@ -345,12 +348,12 @@
     }
     showBlock(elm.id);  
   }
-  function showDialog(id, group, handler) {
+  function showDialog(id, group, handler, data) {
     var elm;
     
     hideBlocks();
     showListActions(group);
-    setForm(id, handler);
+    setForm(id, handler, data);
     showBlock(id); 
   }
   function showData(context) {
@@ -430,6 +433,7 @@
               a.href = url.replace('{id}',row.id);
               dom.push(dom.text(row[p]),a);
               a.onclick = function() {handler(this.href); return false;};
+              tr.id = row.id; //stuff unique record id into table row
               dom.push(a,td);
             }
             else {
@@ -466,12 +470,25 @@
       elm.style.display="block";
     }
   }  
-  function setForm(id, handler) {
-    var elm;
+  function setForm(id, handler, data) {
+    var elm, nodes, d;
     
     elm = dom.find(id);
     if(elm) {
       elm.onsubmit = handler;
+    }
+    if(data) {
+      for(var d of data) {
+        nodes = dom.nameNodes(d.name, elm, "input");
+        if(nodes[0]) {
+          nodes[0].value = d.value;
+        }
+        else {
+          if(nodes) {
+            nodes.value = d.value;
+          }
+        }
+      }
     }
   }
   
@@ -529,6 +546,23 @@ function domHelp() {
     target.appendChild(source);
   }
 
+  function nameNodes(name,elm,tag) {
+    var nodes,i,x;
+    if(elm && tag) {
+      nodes = elm.getElementsByTagName(tag);
+      for(i=0,x=nodes.length;i<x;i++) {
+        if(nodes[i].name===name) {
+          rtn = nodes[i];
+          break;
+        }
+      }
+    }
+    else {
+      rtn = document.getElementsByName(name);
+    }
+    return rtn;
+  }
+  
   function classNodes(name,elm) {
     if(elm) {
       rtn = elm.getElementsByClasName(name);
@@ -570,11 +604,12 @@ function domHelp() {
   // publish
   that = {};
   that.push = push;
-  that.tagNodes = tagNodes;
   that.find = find;
   that.text = text;
   that.node = node;
   that.clear = clear;
+  that.tagNodes = tagNodes;
+  that.nameNodes = nameNodes;
   that.classNodes = classNodes;
 
   return that;
