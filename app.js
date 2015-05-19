@@ -23,7 +23,7 @@ var utils = require('./connectors/utils.js');
 
 // shared vars
 var root = '';
-var port = (process.env.PORT || 8181);
+var port = (process.env.PORT || 8282);
 var prodType = 'application/json';
 var testType = 'application/json';
 var htmlType = "text/html";
@@ -66,6 +66,12 @@ function handler(req, res) {
     }
   }
   
+  // handle options call
+  if(req.method==="OPTIONS") {
+    sendResponse(req, res, "", 200);
+    return;
+  }
+
   // home handler
   if(reHome.test(req.url)) {
     flg = true;
@@ -134,6 +140,13 @@ function sendResponse(req, res, body, code, headers) {
   if(!hdrs['content-type']) {
     hdrs['content-type'] = csType;
   }
+
+  // always add CORS headers to support external clients
+  hdrs["Access-Control-Allow-Origin"] = "*";
+  hdrs["Access-Control-Allow-Methods"] = "POST, GET, PUT, DELETE, OPTIONS";
+  hdrs["Access-Control-Allow-Credentials"] = true;
+  hdrs["Access-Control-Max-Age"] = '86400'; // 24 hours
+  hdrs["Access-Control-Allow-Headers"] = "X-Requested-With, Access-Control-Allow-Origin, X-HTTP-Method-Override, Content-Type, Authorization, Accept";
 
   res.writeHead(code, hdrs),
   res.end(body);
