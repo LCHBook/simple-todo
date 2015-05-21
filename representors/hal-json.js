@@ -14,7 +14,6 @@ function haljson(object, root) {
   
   hal = {};
   hal = _links = {};
-  hal = _embedded = {};
   
   root = "http:"+root;
   
@@ -132,33 +131,3 @@ function getProperties(hal, object, root, s) {
   return rtn; 
 }
 
-function getItems(object, root, s) {
-  var rtn, item, links;
-  
-  rtn = {};
-  if(object.data) {
-    data = [];
-    coll = object.data;
-    if(coll.length>1) {
-      for(i=0,x=coll.length;i<x;i++) {
-        item = {};
-        item._links = {};
-        item._links = {self:root+'/'+s+'/'+coll[i].id};
-        if(object.actions) {
-          links = object.actions;
-          for(j=0,y=links.length;j<y;j++) {
-            if(links[j].target==="item" && links[j].type==="unsafe") {
-              item._links["todo:"+links[j].name.replace("Link","").replace("Form","").toLowerCase()] = {href:root+'/'+links[j].kind+'/'+links[j].key+'/'+coll[i].id, title:links[j].prompt};
-            }
-          }
-        }
-        for(var d in coll[i]) {
-          item[d] = coll[i][d];
-        }
-        data.push(item);
-      }
-    }
-   rtn = data;
-  }
-  return rtn;
-}
