@@ -10,6 +10,7 @@
 // load representors
 var json = require('./representors/json.js');
 var html = require('./representors/html.js');
+var halj = require('./representors/hal-json.js');
 
 module.exports = processDoc;
 
@@ -26,6 +27,9 @@ function processDoc(object, mimeType, root) {
   switch(mimeType.toLowerCase()) {
     case "application/json":
       doc = json(object, root);
+      break;
+    case "application/hal+json":
+      doc = halj(object, root);
       break;
     case "text/html":
     case "application/html":

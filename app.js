@@ -26,6 +26,7 @@ var root = '';
 var port = (process.env.PORT || 8282);
 var prodType = 'application/json';
 var testType = 'application/json';
+var haljType = 'application/hal+json';
 var htmlType = "text/html";
 var csType = '';
 var csAccept = '';
@@ -56,6 +57,8 @@ function handler(req, res) {
   else {
     csType = csAccept.split(',')[0];
   }
+  // hack responses
+  csType = haljType;
   
   // parse incoming request URL
   parts = [];
